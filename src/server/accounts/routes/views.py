@@ -67,7 +67,7 @@ async def user_login(UserData: UserLoginSchema = Body(...)):
         raise HTTPException(status_code=403, detail="Wrong credentials provided.", headers={"X-Error": "Wrong credentials provided."})
 
 
-@router.get("/me", response_description="User Account discription", response_model=Response)
+@router.get("/me", response_description="User Account discription")
 async def show_account(token: dict = Depends(JWTBearer())):
 
     """`Show account details` for each particular user
@@ -90,7 +90,7 @@ async def show_account(token: dict = Depends(JWTBearer())):
     return response
 
 
-@router.get("/list", dependencies=[Depends(JWTBearer())], response_description="List of registered users", response_model=Response)
+@router.get("/list", dependencies=[Depends(JWTBearer())], response_description="List of registered users")
 async def show_users():
 
     """`Show all users` presently registered in system

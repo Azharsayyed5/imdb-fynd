@@ -12,9 +12,10 @@ from server.accounts.utils.utils import (
 )
 from server.auth.auth_handler import signJWT, decodeJWT
 from server.auth.auth_bearer import JWTBearer
+from server.auth.permission_handler import RoleChecker
 
 router = APIRouter()
-
+permission_handler = RoleChecker(["admin"])
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED, response_description="Authorization Token", response_model=Token)
 async def signup(user_data: UserSchema):
@@ -90,10 +91,13 @@ async def show_account(token: dict = Depends(JWTBearer())):
     return response
 
 
-@router.get("/list", dependencies=[Depends(JWTBearer())], response_description="List of registered users")
+@router.get("/list", dependencies=[Depends(JWTBearer()), Depends(permission_handler)], response_description="List of registered users")
 async def show_users():
 
     """`Show all users` presently registered in system
+
+    Raises:
+        HTTPException: `STATUS 403`, Not permissible If role is not admin
 
     Returns:
         HTTPResponse: `STATUS 200` Success, List of registered users

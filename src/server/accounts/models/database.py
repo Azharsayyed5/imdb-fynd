@@ -1,3 +1,7 @@
+import sys
+import os
+from pathlib import Path
+sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent))
 from server.connections import database
 from fastapi.encoders import jsonable_encoder
 from bson.objectid import ObjectId

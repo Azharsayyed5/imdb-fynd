@@ -1,7 +1,11 @@
+import sys
+import os
 import time
 from typing import Dict
 import jwt
 from decouple import config
+from pathlib import Path
+sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent))
 from server.config import JWT_ALGORITHM, JWT_SECRET
 
 

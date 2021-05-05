@@ -4,6 +4,7 @@ pydantic[email]
 python-decouple==3.4
 uvicorn==0.13.4
 pytest==6.2.2
+pathlib==1.0.1
 requests
 pyjwt
 passlib

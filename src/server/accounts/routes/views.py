@@ -35,10 +35,13 @@ async def signup(user_data: UserSchema):
         HTTPResponse: `STATUS 201 CREATED` for successful registration of user, else failure reponse
     """
     try:
+        # Check if email address already exists in database
         user = await fetch_document({'email': user_data.email})
         if user:
             raise HTTPException(status_code=409, detail="User already registered.", headers={"X-Error": "User already registered in database"})
+        # Create user
         signedup_user = await create_document(user_data)
+        # Generate JWT Access token
         return signJWT(signedup_user['user_id'], signedup_user['role'])
     except Exception as GeneralException:
         print(f"Signup API - {GeneralException}")
@@ -67,9 +70,11 @@ async def user_login(UserData: UserLoginSchema = Body(...)):
         user = await fetch_document({'email': UserData.email}, True)
         if not user:
             raise HTTPException(status_code=404, detail="User does not exist, please signup", headers={"X-Error": "User does not exist"})
+        # Verify password
         if verify_password(UserData.password, user['hashed_password']):
             return signJWT(user['user_id'], user['role'])
         else:
+            # Password Verification Failed
             raise HTTPException(status_code=403, detail="Wrong credentials provided.", headers={"X-Error": "Wrong credentials provided."})
     except Exception as GeneralException:
         print(f"Login API - {GeneralException}")
@@ -92,7 +97,9 @@ async def show_account(token: dict = Depends(JWTBearer())):
     """
 
     try:
+        # Get Payload from Auth token
         payload = decodeJWT(token)
+        # Get user from database
         user = await fetch_document({'user_id': payload['user_id']})
         if not user:
             raise HTTPException(status_code=404, detail="User does not exist", headers={"X-Error": "User does not exist"})

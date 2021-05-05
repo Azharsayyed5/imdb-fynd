@@ -21,6 +21,14 @@ from server.config import EXCEPTION_RESPONSE
 router = APIRouter()
 Auth_handler = JWTBearer([])
 
+
+def HTTPExceptionResponse(ExceptionRx):
+    if hasattr(ExceptionRx, 'detail'):
+        raise HTTPException(status_code=ExceptionRx.status_code, detail=ExceptionRx.detail, headers=ExceptionRx.headers)
+    else:
+        raise HTTPException(status_code=500, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
+
+
 @router.post("/signup", status_code=status.HTTP_201_CREATED, response_description="Authorization Token", response_model=Token)
 async def signup(user_data: UserSchema):
 
@@ -50,7 +58,7 @@ async def signup(user_data: UserSchema):
         return signJWT(signedup_user['user_id'], signedup_user['role'])
     except Exception as GeneralException:
         print(f"Signup API - {GeneralException}")
-        raise HTTPException(status_code=500, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
+        HTTPExceptionResponse(GeneralException)
 
 
 @router.post("/login", response_description="Authorization Token", response_model=Token)
@@ -84,7 +92,7 @@ async def user_login(UserData: UserLoginSchema = Body(...)):
             raise HTTPException(status_code=403, detail="Wrong credentials provided.", headers={"X-Error": "Wrong credentials provided."})
     except Exception as GeneralException:
         print(f"Login API - {GeneralException}")
-        raise HTTPException(status_code=500, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
+        HTTPExceptionResponse(GeneralException)
 
 
 @router.get("/me", response_description="User Account discription", response_model=GenericResponse)
@@ -114,4 +122,4 @@ async def show_account(token: dict = Depends(Auth_handler)):
         return response
     except Exception as GeneralException:
         print(f"Account detail - {GeneralException}")
-        raise HTTPException(status_code=500, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
+        HTTPExceptionResponse(GeneralException)

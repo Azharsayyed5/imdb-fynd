@@ -47,8 +47,22 @@ async def update_document(_id:str, doc_data: dict) -> dict:
     """
 
     doc = jsonable_encoder(doc_data)
-    doc = await collection.replace_one({'_id': _id}, doc)
+    doc = await collection.replace_one({'_id': ObjectId(_id)}, doc)
     if doc.modified_count == 0:
         return False
-    new_doc = await collection.find_one({"_id": _id}, projection={'_id': False})
+    new_doc = await collection.find_one({"_id": ObjectId(_id)}, projection={'_id': False})
     return new_doc
+
+
+async def delete_document(_id:str) -> bool:
+    """[summary]
+
+    Args:
+        _id (str): [description]
+
+    Returns:
+        bool: [description]
+    """
+
+    doc = await collection.delete_one({'_id': ObjectId(_id)})
+    return True

@@ -1,7 +1,7 @@
 import sys
 import os
 from pathlib import Path
-sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent))
+sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent.parent))
 from fastapi import APIRouter, Body, Request, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from server.imdb.models.schema import (

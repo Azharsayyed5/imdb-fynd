@@ -1,7 +1,11 @@
+import sys
+import os
 from fastapi import Request, HTTPException
 from typing import List
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from .auth_handler import decodeJWT
+from pathlib import Path
+sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent.parent))
+from server.auth.auth_handler import decodeJWT
 
 
 class JWTBearer(HTTPBearer):

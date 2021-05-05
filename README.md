@@ -3,7 +3,7 @@ Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest pytho
 
 # Heroku Live Link
 - LINK Doc `http://imdb-fynd-in.herokuapp.com/docs`
-- LINK Redoc `http://imdb-fynd-in.herokuapp.com/docs`
+- LINK Redoc `http://imdb-fynd-in.herokuapp.com/redoc`
 
 # To RUN APP
 

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
 from fastapi.encoders import jsonable_encoder
 import datetime
 from server.accounts.models.schema import (
-    ErrorResponseModel, ResponseModel, UserSchema, UserLoginSchema, Token, Response
+    ErrorResponseModel, ResponseModel, UserSchema, UserLoginSchema, Token, GenericResponse
 )
 from server.accounts.models.database import (
     fetch_document, create_document, fetch_documents_all
@@ -13,6 +13,7 @@ from server.accounts.utils.utils import (
 from server.auth.auth_handler import signJWT, decodeJWT
 from server.auth.auth_bearer import JWTBearer
 from server.auth.permission_handler import RoleChecker
+from server.config import EXCEPTION_RESPONSE
 
 router = APIRouter()
 permission_handler = RoleChecker(["admin"])
@@ -33,12 +34,15 @@ async def signup(user_data: UserSchema):
     Returns:
         HTTPResponse: `STATUS 201 CREATED` for successful registration of user, else failure reponse
     """
-
-    user = await fetch_document({'email': user_data.email})
-    if user:
-        raise HTTPException(status_code=409, detail="User already registered.", headers={"X-Error": "User already registered in database"})
-    signedup_user = await create_document(user_data)
-    return signJWT(signedup_user['user_id'], signedup_user['role'])
+    try:
+        user = await fetch_document({'email': user_data.email})
+        if user:
+            raise HTTPException(status_code=409, detail="User already registered.", headers={"X-Error": "User already registered in database"})
+        signedup_user = await create_document(user_data)
+        return signJWT(signedup_user['user_id'], signedup_user['role'])
+    except Exception as GeneralException:
+        print(f"Signup API - {GeneralException}")
+        raise HTTPException(status_code=409, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
 
 
 @router.post("/login", response_description="Authorization Token", response_model=Token)
@@ -59,16 +63,20 @@ async def user_login(UserData: UserLoginSchema = Body(...)):
         HTTPResponse: `STATUS 200`, Successfully logged in
     """
 
-    user = await fetch_document({'email': UserData.email}, True)
-    if not user:
-        raise HTTPException(status_code=404, detail="User does not exist, please signup", headers={"X-Error": "User does not exist"})
-    if verify_password(UserData.password, user['hashed_password']):
-        return signJWT(user['user_id'], user['role'])
-    else:
-        raise HTTPException(status_code=403, detail="Wrong credentials provided.", headers={"X-Error": "Wrong credentials provided."})
+    try:
+        user = await fetch_document({'email': UserData.email}, True)
+        if not user:
+            raise HTTPException(status_code=404, detail="User does not exist, please signup", headers={"X-Error": "User does not exist"})
+        if verify_password(UserData.password, user['hashed_password']):
+            return signJWT(user['user_id'], user['role'])
+        else:
+            raise HTTPException(status_code=403, detail="Wrong credentials provided.", headers={"X-Error": "Wrong credentials provided."})
+    except Exception as GeneralException:
+        print(f"Login API - {GeneralException}")
+        raise HTTPException(status_code=409, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
 
 
-@router.get("/me", response_description="User Account discription")
+@router.get("/me", response_description="User Account discription", response_model=GenericResponse)
 async def show_account(token: dict = Depends(JWTBearer())):
 
     """`Show account details` for each particular user
@@ -83,27 +91,13 @@ async def show_account(token: dict = Depends(JWTBearer())):
         HTTPResponse: `STATUS 200` Success, with user details
     """
 
-    payload = decodeJWT(token)
-    user = await fetch_document({'user_id': payload['user_id']})
-    if not user:
-        raise HTTPException(status_code=404, detail="User does not exist", headers={"X-Error": "User does not exist"})
-    response = ResponseModel(user, "Successfull")
-    return response
-
-
-@router.get("/list", dependencies=[Depends(JWTBearer()), Depends(permission_handler)], response_description="List of registered users")
-async def show_users():
-
-    """`Show all users` presently registered in system
-
-    Raises:
-        HTTPException: `STATUS 403`, Not permissible If role is not admin
-
-    Returns:
-        HTTPResponse: `STATUS 200` Success, List of registered users
-    """
-
-    users = await fetch_documents_all()
-    print(users)
-    response = ResponseModel(users, "Successfull")
-    return response
+    try:
+        payload = decodeJWT(token)
+        user = await fetch_document({'user_id': payload['user_id']})
+        if not user:
+            raise HTTPException(status_code=404, detail="User does not exist", headers={"X-Error": "User does not exist"})
+        response = ResponseModel(user, "Successfull")
+        return response
+    except Exception as GeneralException:
+        print(f"Account detail - {GeneralException}")
+        raise HTTPException(status_code=409, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})

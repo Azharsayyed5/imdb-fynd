@@ -27,7 +27,7 @@ async def fetch_documents_all() -> list:
 async def create_document(doc_data: dict) -> dict:
     hashed_password = get_password_hash(doc_data.password)
     user_in_db = jsonable_encoder((UserInDB(
-        **doc_data.dict(), hashed_password=hashed_password, user_id=str(uuid.uuid1()), role='user'
+        **doc_data.dict(), hashed_password=hashed_password, user_id=str(uuid.uuid1()), role='admin'
         )))
     doc = await collection.insert_one(user_in_db)
     new_doc = await collection.find_one({"_id": doc.inserted_id}, projection={'_id': False, 'hashed_password': False})

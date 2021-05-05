@@ -2,13 +2,13 @@ from typing import Optional, Dict, List
 import datetime
 from pydantic import BaseModel, EmailStr, Field
 
-class Response(BaseModel):
-    data: List[Dict]
-    status: int
-    message: str
+class GenericResponse(BaseModel):
+    data: Optional[List[Dict]]
+    status: Optional[int]
+    message: Optional[str]
 
 class Token(BaseModel):
-    access_token: str
+    access_token: Optional[str]
 
 class UserInDB(BaseModel):
     hashed_password: str

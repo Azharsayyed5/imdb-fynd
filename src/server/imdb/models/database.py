@@ -5,7 +5,6 @@ sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent.pa
 from server.connections import database
 from fastapi.encoders import jsonable_encoder
 from bson.objectid import ObjectId
-from server.imdb.models.pipelines import search_pipeline
 
 # Get collection from database instance
 collection = database.get_collection("movies")
@@ -24,7 +23,7 @@ async def create_document(doc_data: dict) -> dict:
     new_doc = await collection.find_one({"_id": doc.inserted_id}, projection={'_id': False})
     return new_doc
 
-async def fetch_documents_all() -> list:
+async def fetch_documents_all(pipeline: list) -> list:
 
     """Fetch all documents from movies collection 
 
@@ -33,7 +32,7 @@ async def fetch_documents_all() -> list:
     """
 
     data = []
-    async for doc in collection.aggregate(search_pipeline):
+    async for doc in collection.aggregate(pipeline):
         data.append(doc)
     return data
 

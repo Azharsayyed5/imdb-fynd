@@ -1,6 +1,7 @@
 import sys
 import os
 from pathlib import Path
+from typing import Optional
 from bson.objectid import ObjectId
 sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent.parent))
 from fastapi import APIRouter, Body, Request, Depends, HTTPException
@@ -10,6 +11,9 @@ from server.imdb.models.schema import (
 )
 from server.imdb.models.database import (
     create_document, fetch_documents_all, update_document, delete_document
+)
+from server.imdb.utils.utils import (
+    build_pipeline
 )
 from server.auth.auth_handler import signJWT, decodeJWT
 from server.auth.auth_bearer import JWTBearer
@@ -26,16 +30,31 @@ def HTTPExceptionResponse(ExceptionRx):
 
 
 @router.get("/movies", response_description="", response_model=GenericResponse)
-async def search_movies():
+async def search_movies(search: Optional[str] = None, genre: Optional[str] = None, p_srange: Optional[int] = None, p_erange: Optional[int] = None, s_srange: Optional[int] = None, s_erange: Optional[int] = None, sortby: Optional[str] = None, orderby: Optional[str] = None):
 
     """Endpoint to fetch movie records from database with different types of search and sort parameters
+
+    EXAMPLE ENDPOINTS :
+
+    `/movie?search=dark&genre=family,fantasy&range=popularity&srange=0&erange=10&sortby=popularity&orderby=asc`\n
+    `/movie?search=dark&genre=family,fantasy&range=imdb_score&srange=5&erange=10&sortby=imdb_score&orderby=asc`\n
+    `/movie?search=dark&genre=family,fantasy&range=popularity&srange=0&erange=50`\n
+    `/movie?search=dark&genre=family,fantasy`\n
+    `/movie?search=dark`\n
+    `/movie`\n
 
     Returns:
         dict: List of movies and its details
     """
 
-    data = await fetch_documents_all()
-    return ResponseModel(data, "Success")
+    try:
+        pipeline = build_pipeline(search, genre, str(p_srange), str(p_erange), str(s_srange), str(s_erange), sortby, orderby)
+        print(pipeline)
+        data = await fetch_documents_all(pipeline)
+        return ResponseModel(data, "Success")
+    except Exception as GeneralException:
+        print(f"search_movies API - {GeneralException}")
+        HTTPExceptionResponse(GeneralException)
 
 
 @router.post("/movies", dependencies=[Depends(Auth_handler)], response_description="", response_model=GenericResponse)

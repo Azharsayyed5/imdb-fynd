@@ -2,7 +2,8 @@
 Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest python version and for database layer `MongoDB` is used with python's asynchrnous driver `motor`
 
 # Heroku Live Link
-LINK `http://imdb-fynd-in.herokuapp.com/docs`
+- LINK Doc `http://imdb-fynd-in.herokuapp.com/docs`
+- LINK Redoc `http://imdb-fynd-in.herokuapp.com/docs`
 
 # To RUN APP
 

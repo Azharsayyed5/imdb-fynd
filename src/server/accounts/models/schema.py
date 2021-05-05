@@ -4,7 +4,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 class GenericResponse(BaseModel):
     data: Optional[List[Dict]]
-    status: Optional[int]
+    code: Optional[int]
     message: Optional[str]
 
 class Token(BaseModel):

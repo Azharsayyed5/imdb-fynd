@@ -4,7 +4,7 @@ from server.accounts.routes.views import router as AccountsRouter
 
 app = FastAPI()
 app.include_router(IMDBRouter, tags=["IMDB"], prefix="/v1/imbd")
-app.include_router(AccountsRouter, tags=["accounts"], prefix="/v1/accounts")
+app.include_router(AccountsRouter, tags=["Accounts"], prefix="/v1/accounts")
 
 @app.get("/", tags=["Root"])
 async def read_root():

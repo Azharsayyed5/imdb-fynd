@@ -8,7 +8,7 @@ from server.imdb.models.schema import (
     MoviesSchema, GenericResponse, ResponseModel
 )
 from server.imdb.models.database import (
-    create_document
+    create_document, fetch_documents_all, update_document
 )
 from server.auth.auth_handler import signJWT, decodeJWT
 from server.auth.auth_bearer import JWTBearer
@@ -20,7 +20,15 @@ Auth_handler = JWTBearer(["admin"])
 
 @router.get("/movies", response_description="", response_model=GenericResponse)
 async def search_movies():
-    return ResponseModel([], "OK")
+
+    """[summary]
+
+    Returns:
+        [type]: [description]
+    """
+
+    data = await fetch_documents_all()
+    return ResponseModel(data, "Success")
 
 
 @router.post("/movies", dependencies=[Depends(Auth_handler)], response_description="", response_model=GenericResponse)
@@ -43,11 +51,14 @@ async def add_movies(data: MoviesSchema):
         raise HTTPException(status_code=500, detail=EXCEPTION_RESPONSE, headers={"X-Error": EXCEPTION_RESPONSE})
 
 
-@router.put("/movies", response_description="", response_model=GenericResponse)
-async def update_movies(data: MoviesSchema):
-    return ResponseModel([], "OK")
+@router.put("/movies/{movie_id}", dependencies=[Depends(Auth_handler)], response_description="", response_model=GenericResponse)
+async def update_movies(movie_id: str, data: MoviesSchema):
+    data = update_document(movie_id, data)
+    if not data:
+        raise HTTPException(status_code=404, detail=f"Document with id {movie_id} does not exist", headers={"X-Error": "Movie update failed"})
+    return ResponseModel(data, "Successfully Updated The Movie ")
 
 
-@router.delete("/movies", response_description="", response_model=GenericResponse)
+@router.delete("/movies", dependencies=[Depends(Auth_handler)], response_description="", response_model=GenericResponse)
 async def delete_movies():
     return ResponseModel([], "OK")

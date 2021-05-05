@@ -8,15 +8,16 @@ class GenericResponse(BaseModel):
     message: Optional[str]
 
 class MoviesSchema(BaseModel):
+    popularity: float = Field(...)
     director: str = Field(...)
     genre: List[str] = Field(...)
-    imdb_score: int = Field(...)
+    imdb_score: float = Field(...)
     name: str = Field(...)
 
     class Config:
         schema_extra = {
             "example": {
-                "99popularity":99,
+                "popularity":99,
                 "director": "Cristopher nolan",
                 "genre": ["thriller", "action"],
                 "imdb_score": 9.6,

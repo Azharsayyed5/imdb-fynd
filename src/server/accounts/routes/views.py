@@ -17,9 +17,11 @@ from server.accounts.utils.utils import (
 from server.auth.auth_handler import signJWT, decodeJWT
 from server.auth.auth_bearer import JWTBearer
 from server.config import EXCEPTION_RESPONSE
+from server.logger import logging_handler
 
 router = APIRouter()
 Auth_handler = JWTBearer([])
+logger = logging_handler()
 
 
 def HTTPExceptionResponse(ExceptionRx):
@@ -57,7 +59,7 @@ async def signup(user_data: UserSchema):
         # Generate JWT Access token
         return signJWT(signedup_user['user_id'], signedup_user['role'])
     except Exception as GeneralException:
-        print(f"Signup API - {GeneralException}")
+        logger.exception(f"Signup API - {GeneralException}")
         HTTPExceptionResponse(GeneralException)
 
 
@@ -91,7 +93,7 @@ async def user_login(UserData: UserLoginSchema = Body(...)):
             # Password Verification Failed
             raise HTTPException(status_code=403, detail="Wrong credentials provided.", headers={"X-Error": "Wrong credentials provided."})
     except Exception as GeneralException:
-        print(f"Login API - {GeneralException}")
+        logger.exception(f"Login API - {GeneralException}")
         HTTPExceptionResponse(GeneralException)
 
 
@@ -121,5 +123,5 @@ async def show_account(token: dict = Depends(Auth_handler)):
         response = ResponseModel(user, "Successfull")
         return response
     except Exception as GeneralException:
-        print(f"Account detail - {GeneralException}")
+        logger.exception(f"Account detail - {GeneralException}")
         HTTPExceptionResponse(GeneralException)

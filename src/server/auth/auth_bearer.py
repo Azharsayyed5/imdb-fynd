@@ -6,6 +6,9 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pathlib import Path
 sys.path.append(os.path.dirname(Path(os.path.abspath(__file__)).parent.parent.parent))
 from server.auth.auth_handler import decodeJWT
+from server.logger import logging_handler
+
+logger = logging_handler()
 
 
 class JWTBearer(HTTPBearer):
@@ -32,19 +35,22 @@ class JWTBearer(HTTPBearer):
         credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
         if credentials:
             if not credentials.scheme == "Bearer":
+                logger.error(f"Invalid authentication scheme.")
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
 
             payload = self.verify_jwt(credentials.credentials)
             if not payload:
+                logger.error(f"Invalid token or expired token")
                 raise HTTPException(status_code=403, detail="Invalid token or expired token.")
 
             if self.allowed_roles: 
                 if payload['role'] not in self.allowed_roles:
-                    print(f"User {payload['user_id']} with role {payload['role']} not in {self.allowed_roles}")
+                    logger.error(f"User {payload['user_id']} with role {payload['role']} not in {self.allowed_roles}")
                     raise HTTPException(status_code=403, detail="Operation not permitted")
 
             return credentials.credentials
         else:
+            logger.error(f"Invalid authorization code.")
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
 
     def verify_jwt(self, jwtoken: str):

@@ -18,9 +18,12 @@ from server.imdb.utils.utils import (
 from server.auth.auth_handler import signJWT, decodeJWT
 from server.auth.auth_bearer import JWTBearer
 from server.config import EXCEPTION_RESPONSE
+from server.logger import logging_handler
 
 router = APIRouter()
 Auth_handler = JWTBearer(["admin"])
+logger = logging_handler()
+
 
 def HTTPExceptionResponse(ExceptionRx):
     # Check if error raised is cutome exception
@@ -58,7 +61,7 @@ async def search_movies(search: Optional[str] = None, genre: Optional[str] = Non
         data = await fetch_documents_all(pipeline)
         return ResponseModel(data, "Success")
     except Exception as GeneralException:
-        print(f"search_movies API - {GeneralException}")
+        logger.exception(f"search_movies API - {GeneralException}")
         HTTPExceptionResponse(GeneralException)
 
 
@@ -80,7 +83,7 @@ async def add_movies(data: MoviesSchema):
         movie = await create_document(data)
         return ResponseModel(movie, "Successfully Added The Movie")
     except Exception as GeneralException:
-        print(f"add_movies API - {GeneralException}")
+        logger.exception(f"add_movies API - {GeneralException}")
         HTTPExceptionResponse(GeneralException)
 
 
@@ -110,7 +113,7 @@ async def update_movies(movie_id: str, data: MoviesSchema):
             raise HTTPException(status_code=404, detail=f"Document with id {movie_id} does not exist", headers={"X-Error": "Movie update failed"})
         return ResponseModel(data, "Successfully Updated The Movie")
     except Exception as GeneralException:
-        print(f"update_movies API - {GeneralException}")
+        logger.exception(f"update_movies API - {GeneralException}")
         HTTPExceptionResponse(GeneralException)
 
 
@@ -138,7 +141,7 @@ async def delete_movies(movie_id: str):
             raise HTTPException(status_code=500, detail=f"Failed to Delete - {movie_id}", headers={"X-Error": "Movie deletion failed"})
         return ResponseModel([], "Successfully deleted the movie")
     except Exception as GeneralException:
-        print(f"delete_movies API - {GeneralException}")
+        logger.exception(f"delete_movies API - {GeneralException}")
         HTTPExceptionResponse(GeneralException)
 
 

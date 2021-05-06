@@ -40,17 +40,21 @@ Change directory to `src`
    cd /src
 ```
 
-Run below command to start uvicorn server
+Run below command to start `uvicorn` server
 
 ```bash
    python3 main.py
 ```
 
-## To RUN Tests
+## Run Tests
+
+Change directory to `src`
 
 ```bash
    cd /src
 ```
+
+Run below command to run tests
 
 ```bash
    pytest test.py

@@ -54,13 +54,14 @@ async def update_document(_id:str, doc_data: dict) -> dict:
 
 
 async def delete_document(_id:str) -> bool:
-    """[summary]
+    
+    """Delete a single IMDB Movie document in movies collection.
 
     Args:
-        _id (str): [description]
+        _id (str): Object ID belonging to a particular doc
 
     Returns:
-        bool: [description]
+        bool: Delete reponse
     """
 
     doc = await collection.delete_one({'_id': ObjectId(_id)})

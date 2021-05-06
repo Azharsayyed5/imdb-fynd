@@ -1,11 +1,27 @@
-# IMDB FYND
+## IMDB FYND
 Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest python version and for database layer `MongoDB` is used with python's asynchrnous driver `motor`
 
-# Heroku Live Link
+## Heroku Live Link
 - LINK Doc `https://imdb-fynd-in.herokuapp.com/docs`
 - LINK Redoc `https://imdb-fynd-in.herokuapp.com/redoc`
 
-# To RUN APP
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`JWT_SECRET`
+
+`JWT_ALGORITHM`
+
+`MONGO_USER`
+
+`MONGO_PASSWORD`
+
+`MONGO_HOST`
+
+`MONGO_DATABASE`
+
+## To RUN APP
 ```bash
    python3 -m pip install -r requirements.txt
 ```
@@ -16,7 +32,7 @@ Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest pytho
    python3 main.py
 ```
 
-# To RUN Tests
+## To RUN Tests
 
 ```bash
    cd /src
@@ -27,11 +43,11 @@ Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest pytho
 ```
 
 
-# To Scale APP
+## To Scale APP
 
 - `https://github.com/Azharsayyed5/imdb-fynd/blob/main/scaling_101.txt`
 
-# ENDPOINTS
+## ENDPOINTS
 
 - Admin
     - Signup
@@ -59,7 +75,7 @@ Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest pytho
     - View/Search Movies
         - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies` - `GET`
 
-# Movie Search Guide
+## Movie Search Guide
 - Search by `movie or directors` name
     - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman`
     - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=christopher%20nolan`

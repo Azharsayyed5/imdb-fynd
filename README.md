@@ -13,7 +13,11 @@ Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest pytho
 
 # To RUN Tests
 
-1. From `/src` directory RUN `pytest test.py`
+- From `/src` directory RUN `pytest test.py`
+
+# To Scale APP
+
+- `https://github.com/Azharsayyed5/imdb-fynd/blob/main/scaling_101.txt`
 
 # ENDPOINTS
 

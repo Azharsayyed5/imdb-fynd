@@ -26,19 +26,19 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-   git clone https://github.com/Azharsayyed5/imdb-fynd.git
+git clone https://github.com/Azharsayyed5/imdb-fynd.git
 ```
 
 Install requirements and packages
 
 ```bash
-   python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 Change directory to `src`
 
 ```bash
-   cd /src
+cd /src
 ```
 
 Run below command to start `uvicorn` server
@@ -52,13 +52,13 @@ Run below command to start `uvicorn` server
 Change directory to `src`
 
 ```bash
-   cd /src
+cd /src
 ```
 
 Run below command to run tests
 
 ```bash
-   pytest test.py
+pytest test.py
 ```
 
 
@@ -71,7 +71,7 @@ Run below command to run tests
 - Admin
     - Signup
         ```http
-           POST https://imdb-fynd-in.herokuapp.com/v1/accounts/signup
+        POST https://imdb-fynd-in.herokuapp.com/v1/accounts/signup
         ```
         
         Request Body - **JSON**
@@ -105,8 +105,14 @@ Run below command to run tests
 
 ## Movie Search Guide
 - Search by `movie or directors` name
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman`
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=christopher%20nolan`
+
+    ```http
+    https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman
+    ```
+
+    ```http
+    https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=christopher%20nolan
+    ```
 
 - Filter by `genre`
     - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=action`

@@ -70,7 +70,9 @@ Run below command to run tests
 
 - Admin
     - Signup
-        - `https://imdb-fynd-in.herokuapp.com/v1/accounts/signup` - `POST`
+        ```http
+           POST https://imdb-fynd-in.herokuapp.com/v1/accounts/signup
+        ```
 
     - Login
         - `https://imdb-fynd-in.herokuapp.com/v1/accounts/login` - `POST`

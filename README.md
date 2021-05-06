@@ -45,7 +45,7 @@ To run this project, you will need to add the following environment variables to
 
 ## To Scale APP
 
-- `https://github.com/Azharsayyed5/imdb-fynd/blob/main/scaling_101.txt`
+[Documentation](https://github.com/Azharsayyed5/imdb-fynd/blob/main/scaling_101.txt)
 
 ## ENDPOINTS
 

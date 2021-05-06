@@ -9,7 +9,7 @@ from server.imdb.models.pipelines import (
 )
 
 
-def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby, orderby):
+def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby, orderby, limit):
 
     """Build and generate mongodb aggregation pipeline based on received query params
 
@@ -60,5 +60,10 @@ def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby
         if sortby not in ("imdb_score", "popularity"):
             raise HTTPException(status_code=400, detail="Failed, Sorting only works on `imdb_score` and `popularity`.", headers={"X-Error": "Query Failed"})
         pipeline[1]["$sort"][sortby] = pipeline[1]["$sort"].pop("_id")
-        
+    
+    if not limit:
+        pipeline.pop(2)
+    else:
+        pipeline[2]["$limit"] = limit
+
     return pipeline

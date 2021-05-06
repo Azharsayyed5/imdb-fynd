@@ -23,6 +23,8 @@ pipeline_example = [
             '_id': -1
         }
     }, {
+        '$limit': 10
+    }, {
         '$project': {
             '_id': {
                 '$toString': '$_id'

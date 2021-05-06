@@ -73,12 +73,14 @@ Run below command to run tests
         ```http
            POST https://imdb-fynd-in.herokuapp.com/v1/accounts/signup
         ```
-
+        
+        Request Body - **JSON**
         Parameter | Type     | Description                |
         | :-------- | :------- | :------------------------- |
         | `fullname` | `string` | **Required**. Full name |
         | `email` | `string` | **Required**. Email address |
         | `password` | `string` | **Required**. Password |
+    
     - Login
         - `https://imdb-fynd-in.herokuapp.com/v1/accounts/login` - `POST`
 

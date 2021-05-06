@@ -74,6 +74,10 @@ Run below command to run tests
            POST https://imdb-fynd-in.herokuapp.com/v1/accounts/signup
         ```
 
+Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+
     - Login
         - `https://imdb-fynd-in.herokuapp.com/v1/accounts/login` - `POST`
 

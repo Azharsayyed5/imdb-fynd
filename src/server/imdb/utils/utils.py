@@ -10,6 +10,16 @@ from server.imdb.models.pipelines import (
 
 
 def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby, orderby):
+
+    """Build and generate mongodb aggregation pipeline based on received query params
+
+    Raises:
+        HTTPException: `STATUS 400`, Invalid query params
+
+    Returns:
+       list: MongoDB Aggregation Pipeline
+    """
+
     pipeline = copy.deepcopy(pipeline_example)
     if search:
         pipeline[0]["$match"]["$text"]["$search"] = search
@@ -28,21 +38,27 @@ def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby
         pipeline[0]["$match"]["popularity"]["$gte"] = int(p_srange)
         pipeline[0]["$match"]["popularity"]["$lte"] = int(p_erange)
 
-    if (not p_srange.isdigit()) or (not p_erange.isdigit()):
-        del pipeline[0]["$match"]["popularity"]
-        # raise HTTPException(status_code=500, detail="popularity start or end range is not valid, send numerical values for both", headers={"X-Error": "Query Failed"})
+    if p_srange.isdigit() or p_erange.isdigit():
+        if (not p_srange.isdigit()) or (not p_erange.isdigit()):
+            del pipeline[0]["$match"]["popularity"]
+            raise HTTPException(status_code=400, detail="Send start and end range for popularity filtering", headers={"X-Error": "Query Failed"})
 
     if s_srange.isdigit() and s_erange.isdigit():
         pipeline[0]["$match"]["imdb_score"]["$gte"] = int(s_srange)
         pipeline[0]["$match"]["imdb_score"]["$lte"] = int(s_erange)
 
-    if (not s_srange.isdigit()) or (not s_erange.isdigit()):
-        del pipeline[0]["$match"]["imdb_score"]
-        # raise HTTPException(status_code=500, detail="IMDB Score start or end range is not valid, send numerical values for both", headers={"X-Error": "Query Failed"})
+    if s_srange.isdigit() or s_erange.isdigit():
+        if (not s_srange.isdigit()) or (not s_erange.isdigit()):
+            del pipeline[0]["$match"]["imdb_score"]
+            raise HTTPException(status_code=400, detail="Send start and end range for IMDB Score filtering", headers={"X-Error": "Query Failed"})
+
+    if orderby:
+        order = 1 if (orderby == "asc") else -1
+        pipeline[1]["$sort"]["_id"] = order 
 
     if sortby:
-        order = 1 if (orderby == "asc") else -1
+        if sortby not in ("imdb_score", "popularity"):
+            raise HTTPException(status_code=400, detail="Failed, Sorting only works on `imdb_score` and `popularity`.", headers={"X-Error": "Query Failed"})
         pipeline[1]["$sort"][sortby] = pipeline[1]["$sort"].pop("_id")
-        pipeline[1]["$sort"][sortby] = order 
-
+        
     return pipeline

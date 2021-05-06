@@ -1,8 +1,7 @@
 # Scaling practices for the app :
 
 1. Vertical scaling of app server and Database server 
-    - (This can be very first approach that can be implemented inorder to handle more traffic e.g more 
-    cores, RAM, etc)
+    - (This can be very first approach that can be implemented inorder to handle more traffic e.g more cores, RAM, etc)
 
 2. Horizontal scaling of app 
     - (Deploying the app server on multiple servers)
@@ -10,16 +9,23 @@
 3. Load balancer (NGINX) 
     - (Distibute traffic between group of app servers via load balancer)
 
-Database master-slave replication 
+4. Database master-slave replication 
     - (With read-only slaves to offload reads from master, as in our case write traffic is less as compare to reads)
 
+5. Database Sharding 
+    - (Ideal for transactional scenario, where write and update queries are in more higher volume)
 
-Database Sharding ( Ideal for transactional scenario)
+6. Caching - Redis Backend
+    - (API Response Caching for about 3 - 5 seconds inorder avoid querying the primary database, fast response will be achievable via caching)
 
-Caching - Redis Backend
+7. Deploy App and database on same network
+    - (Inorder to avoid network latency, recommended to deployall the app and database servers on the same network)
 
-Deploy App and database on same network
+8. Database indexing  
+    - (Create indexes on columns keeping in mind the most called query)
 
-Database indexing for particular kind of query ( Most probably most called query )
+9. Profiling 
+    - (Identify and reduce app server CPU and memory usage if continuously consuming CPU)
 
-Identify and reduce app server CPU and memory usage if continuously consuming CPU ( By Profiling)
+10. Docker & Kubernetes
+    - (For portability, easy to deploy and scale)

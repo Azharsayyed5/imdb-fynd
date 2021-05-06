@@ -25,7 +25,7 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-   git clone https://github.com/Azharsayyed5/imdb-fynd/
+   git clone https://github.com/Azharsayyed5/imdb-fynd.git
 ```
 
 Install requirements and packages

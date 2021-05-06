@@ -82,26 +82,46 @@ pytest test.py
         | `password` | `string` | **Required**. Password |
     
     - Login
-        - `https://imdb-fynd-in.herokuapp.com/v1/accounts/login` - `POST`
+
+        ```http
+        POST https://imdb-fynd-in.herokuapp.com/v1/accounts/login
+        ```
 
     - Account details
-        - `https://imdb-fynd-in.herokuapp.com/v1/accounts/me` - `GET`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/accounts/me
+        ```
 
     - Add Movie
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies` - `POST`
+
+        ```http
+        POST https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        ```
 
     - Update Movie
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies` - `PUT`
+        ```http
+        PUT https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        ```
 
     - Delete Movie
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies` - `Delete`
+
+        ```http
+        DELETE https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        ```
 
     - View/Search Movies
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies` - `GET`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        ```
 
 - User
     - View/Search Movies
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies` - `GET`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        ```
 
 ## Movie Search Guide
 - Search by `movie or directors` name

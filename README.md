@@ -107,50 +107,101 @@ pytest test.py
 - Search by `movie or directors` name
 
     ```http
-    https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman
     ```
 
     ```http
-    https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=christopher%20nolan
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=christopher%20nolan
     ```
 
 - Filter by `genre`
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=action`
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=thriller`
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=action,thriller`
+
+    ```http
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=action`
+    ```
+
+    ```http
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=thriller
+    ```
+
+    ```http
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?genre=action,thriller
+    ```
 
 - Filter by `popularity` range
     - Filter movies which has popularity between 0 to 50
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?p_srange=0&p_erange=50`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?p_srange=0&p_erange=50
+        ```
+
     - Filter movies which has popularity between 50 to 100
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?p_srange=50&p_erange=100`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?p_srange=50&p_erange=100
+        ```
 
 - Filter by `IMDB score` range
     - Filter movies which has IMDB score between 0 to 5
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?s_srange=0&s_erange=5`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?s_srange=0&s_erange=5
+        ```
     - Filter movies which has IMDB score between 5 to 10
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?s_srange=5&s_erange=10`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?s_srange=5&s_erange=10
+        ```
 
 - Filter with `popularity and IMDB score` range
     - Filter movies which has IMDB score between 0 to 5 and popularity between 0 to 50
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?s_srange=0&s_erange=5&p_srange=0&p_erange=50`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?s_srange=0&s_erange=5&p_srange=0&p_erange=50
+        ```
 
 - Sorting and order
     - Sort by `popularity score` - `Ascending`
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=popularity&orderby=asc`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=popularity&orderby=asc
+        ```
+
     - Sort by `popularity score` - `Descending`
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=popularity5&orderby=desc`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=popularity5&orderby=desc
+        ```
+
     - Sort by `IMDB score` - `Ascending`
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=imdb_score&orderby=asc`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=imdb_score&orderby=asc
+        ```
     - Sort by `IMDB score` - `Descending`
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=imdb_score&orderby=desc`
+
+        ```http
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=imdb_score&orderby=desc
+        ```
+
     - Change default ordering
-        - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?orderby=desc`
+
+        ```http 
+        GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?orderby=desc
+        ```
+
     - `If sorting and ordering params not passed then by default documents will be sorted in ascending order with ObjectId field`
 
 - Limit
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?limit=10`
+
+    ```http
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?limit=10
+    ```
 
 - Search and filter with everything
-    - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman&genre=action&p_srange=0&p_erange=80&s_srange=0&s_erange=10&sortby=imdb_score&orderby=desc&limit=10`
+
+    ```http
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman&genre=action&p_srange=0&p_erange=80&s_srange=0&s_erange=10&sortby=imdb_score&orderby=desc&limit=10
+    ```
+
     - Feel free to try different filters

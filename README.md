@@ -21,13 +21,27 @@ To run this project, you will need to add the following environment variables to
 
 `MONGO_DATABASE`
 
-## To RUN APP
+## Run Locally
+Clone the project
+
+```bash
+   git clone https://github.com/Azharsayyed5/imdb-fynd/
+```
+
+Install requirements and packages
+
 ```bash
    python3 -m pip install -r requirements.txt
 ```
+
+Change directory to `src`
+
 ```bash
    cd /src
 ```
+
+Run below command to start uvicorn server
+
 ```bash
    python3 main.py
 ```

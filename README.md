@@ -80,7 +80,7 @@ Built and documented with `FASTAPI` and `OPENAPI` Standard and with latest pytho
         - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?sortby=imdb_score&orderby=desc`
     - Change default ordering
         - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?orderby=desc`
-    - `If sorting and ordering params not passed then by default documents will be sorted in ascending order with `Onbjectid` field`
+    - `If sorting and ordering params not passed then by default documents will be sorted in ascending order with ObjectId field`
 
 - Search and filter with everything
     - `https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?search=batman&genre=action&p_srange=0&p_erange=80&s_srange=0&s_erange=10&sortby=imdb_score&orderby=desc`

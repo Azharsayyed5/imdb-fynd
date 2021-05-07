@@ -86,6 +86,12 @@ pytest test.py
         ```http
         POST https://imdb-fynd-in.herokuapp.com/v1/accounts/login
         ```
+        
+        Request Body - **JSON**
+        Parameter | Type     | Description                |
+        | :-------- | :------- | :------------------------- |
+        | `email` | `string` | **Required**. Email address |
+        | `password` | `string` | **Required**. Password |
 
     - Account details
 
@@ -98,16 +104,34 @@ pytest test.py
         ```http
         POST https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
         ```
+        
+        Request Body - **JSON**
+        Parameter | Type     | Description                |
+        | :-------- | :------- | :------------------------- |
+        | `popularity` | `string` | **Required**. popularity score |
+        | `director` | `string` | **Required**. Directors name |
+        | `genre` | `list` | **Required**. Genre |
+        | `imdb_score` | `string` | **Required**. imdb score |
+        | `name` | `string` | **Required**. Movie name |
 
     - Update Movie
         ```http
-        PUT https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        PUT https://imdb-fynd-in.herokuapp.com/v1/imdb/movies/{movie_id}
         ```
+        
+        Request Body - **JSON**
+        Parameter | Type     | Description                |
+        | :-------- | :------- | :------------------------- |
+        | `popularity` | `string` | **Required**. popularity score |
+        | `director` | `string` | **Required**. Directors name |
+        | `genre` | `list` | **Required**. Genre |
+        | `imdb_score` | `string` | **Required**. imdb score |
+        | `name` | `string` | **Required**. Movie name |
 
     - Delete Movie
 
         ```http
-        DELETE https://imdb-fynd-in.herokuapp.com/v1/imdb/movies
+        DELETE https://imdb-fynd-in.herokuapp.com/v1/imdb/movies/{movie_id}
         ```
 
     - View/Search Movies

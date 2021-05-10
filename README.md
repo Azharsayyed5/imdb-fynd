@@ -242,6 +242,12 @@ pytest test.py
     GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?limit=10
     ```
 
+- offset
+
+    ```http
+    GET https://imdb-fynd-in.herokuapp.com/v1/imdb/movies?offset=10&limit=10
+    ```
+    
 - Search and filter with everything
 
     ```http

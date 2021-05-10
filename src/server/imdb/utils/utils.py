@@ -9,7 +9,7 @@ from server.imdb.models.pipelines import (
 )
 
 
-def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby, orderby, limit):
+def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby, orderby, limit, offset):
 
     """Build and generate mongodb aggregation pipeline based on received query params
 
@@ -65,5 +65,14 @@ def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby
         pipeline.pop(2)
     else:
         pipeline[2]["$limit"] = limit
+
+    if offset == 0:
+        raise HTTPException(status_code=400, detail="Offset cannot be zero, send positive integer greater than zero.", headers={"X-Error": "Query Failed"})
+
+    if offset:
+        skip = {
+            '$skip': offset
+            }
+        pipeline.insert(2, skip)
 
     return pipeline

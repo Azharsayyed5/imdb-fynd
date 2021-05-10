@@ -35,7 +35,7 @@ def HTTPExceptionResponse(ExceptionRx):
 
 
 @router.get("/movies", response_description="", response_model=GenericResponse)
-async def search_movies(search: Optional[str] = None, genre: Optional[str] = None, p_srange: Optional[int] = None, p_erange: Optional[int] = None, s_srange: Optional[int] = None, s_erange: Optional[int] = None, sortby: Optional[str] = None, orderby: Optional[str] = None, limit: Optional[int] = None):
+async def search_movies(search: Optional[str] = None, genre: Optional[str] = None, p_srange: Optional[int] = None, p_erange: Optional[int] = None, s_srange: Optional[int] = None, s_erange: Optional[int] = None, sortby: Optional[str] = None, orderby: Optional[str] = None, limit: Optional[int] = None, offset: Optional[int] = None):
 
     """Endpoint to fetch movie records from database with different types of search and sort parameters
 
@@ -56,7 +56,7 @@ async def search_movies(search: Optional[str] = None, genre: Optional[str] = Non
 
     try:
         # Build MongoDB Aggregation to use for search
-        pipeline = build_pipeline(search, genre, str(p_srange), str(p_erange), str(s_srange), str(s_erange), sortby, orderby, limit)
+        pipeline = build_pipeline(search, genre, str(p_srange), str(p_erange), str(s_srange), str(s_erange), sortby, orderby, limit, offset)
         # Get all the filtered documents from MongoDB
         data = await fetch_documents_all(pipeline)
         return ResponseModel(data, "Success")

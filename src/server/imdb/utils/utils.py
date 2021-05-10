@@ -66,8 +66,8 @@ def build_pipeline(search, genre, p_srange, p_erange, s_srange, s_erange, sortby
     else:
         pipeline[2]["$limit"] = limit
 
-    if offset == 0:
-        raise HTTPException(status_code=400, detail="Offset cannot be zero, send positive integer greater than zero.", headers={"X-Error": "Query Failed"})
+    # if offset == 0:
+        # raise HTTPException(status_code=400, detail="Offset cannot be zero, send positive integer greater than zero.", headers={"X-Error": "Query Failed"})
 
     if offset:
         skip = {
